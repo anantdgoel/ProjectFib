@@ -29,12 +29,32 @@ function httpGet(input, type, data) {
 		{ return res.text(); })
 		.then(function(text)
 		{
+			/*
+			console.log(text);
+			if(input=="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-0/s480x480/15036323_654895641357441_1273137689777177127_n.jpg?oh=62dc1ed1a5bd65bfb984083bf1b61822&oe=58CFE7E7") console.log("ping");
 			var div = document.createElement('div'),
-				button = Ladda.create(div);
-			data.appendChild(div);
-			div.innerHTML = text;
-			if(text=="verified") div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;";
-			else div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
+					button = Ladda.create(div);
+				data.appendChild(div);
+				div.innerHTML = "not verified";
+				div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;"
+			*/
+			/*
+			if(input=="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-0/s480x480/15036323_654895641357441_1273137689777177127_n.jpg?oh=62dc1ed1a5bd65bfb984083bf1b61822&oe=58CFE7E7") {
+				console.log("ping");
+				var div = document.createElement('div'),
+					button = Ladda.create(div);
+				data.appendChild(div);
+				div.innerHTML = "not verified";
+				div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
+			} else {*/
+				console.log(input + "__::__" + text);
+				var div = document.createElement('div'),
+					button = Ladda.create(div);
+				data.appendChild(div);
+				div.innerHTML = text;
+				if(text=="verified") div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;";
+				else div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
+			//}
 		});
 }
 
@@ -62,6 +82,12 @@ setInterval(function() {
 
 			var processed = false;
 
+			var shared = test[i].querySelector('._52c6');
+			if(!processed && shared != null && shared.href!=undefined) {
+				httpGet(shared.href, "url", data);
+				processed = false;
+			}
+
 			var picComment = test[i].querySelector('.uiScaledImageContainer._4-ep');
 			if(picComment != null && picComment.src!=undefined) {
 				httpGet(picComment.src, "image", data);
@@ -72,12 +98,6 @@ setInterval(function() {
 			if(!processed && picPost != null && picPost.src!=undefined) {
 				httpGet(picPost.src, "image", data);
 				proccessed = false;
-			}
-
-			var shared = test[i].querySelector('._52c6');
-			if(!processed && shared != null && shared.href!=undefined) {
-				httpGet(shared.href, "url", data);
-				processed = false;
 			}
 
 			var text = test[i].querySelector('._5pbx.userContent');
