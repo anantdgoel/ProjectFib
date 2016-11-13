@@ -29,24 +29,7 @@ function httpGet(input, type, data) {
 		{ return res.text(); })
 		.then(function(text)
 		{
-			/*
-			console.log(text);
-			if(input=="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-0/s480x480/15036323_654895641357441_1273137689777177127_n.jpg?oh=62dc1ed1a5bd65bfb984083bf1b61822&oe=58CFE7E7") console.log("ping");
-			var div = document.createElement('div'),
-					button = Ladda.create(div);
-				data.appendChild(div);
-				div.innerHTML = "not verified";
-				div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;"
-			*/
-			/*
-			if(input=="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-0/s480x480/15036323_654895641357441_1273137689777177127_n.jpg?oh=62dc1ed1a5bd65bfb984083bf1b61822&oe=58CFE7E7") {
-				console.log("ping");
-				var div = document.createElement('div'),
-					button = Ladda.create(div);
-				data.appendChild(div);
-				div.innerHTML = "not verified";
-				div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
-			} else {*/
+			
 				console.log(input + "__::__" + text);
 				var div = document.createElement('div'),
 					button = Ladda.create(div);
@@ -54,7 +37,6 @@ function httpGet(input, type, data) {
 				div.innerHTML = text;
 				if(text=="verified") div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;";
 				else div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
-			//}
 		});
 }
 
