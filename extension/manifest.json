@@ -15,8 +15,8 @@
     "content_scripts": [
       {
          "matches": ["https://www.facebook.com/*"],
-         "css": ["ladda.min.css"],
-         "js": [ "myScript.js", "ladda.min.js", "ladda.min.js"]
+         "css": ["/ladda/ladda.min.css"],
+         "js": [ "myScript.js", "/ladda/ladda.min.js", "/ladda/ladda.min.js"]
       }
     ]
 }

@@ -20,29 +20,21 @@ function httpGet(input, type, data) {
 
 	var server = "https://trustfb.herokuapp.com/";
 	var contents = "?content=";
-	//var theUrl = "https://api.wordnik.com/v4/word.json/javascript/";
-	var theUrl = server+type+contents+input;
-	theUrl = theUrl.replace("&", "^");
 	
-	//test = document.body.innerHTML;
+	var theUrl = server+contents+input;
+	theUrl = theUrl.replace("&", "^");
 
 	fetch(theUrl)
 		.then(function(res)
 		{ return res.text(); })
 		.then(function(text)
 		{
-			console.log(text);
-			
 			var div = document.createElement('div'),
 				button = Ladda.create(div);
 			data.appendChild(div);
 			div.innerHTML = text;
-			div.style = "front-weight:bold; padding: 3px;color:red; position:absolute; top: 3px; right: 30px; background: #3b5998";
-			//var l = Ladda.create(div),
-			/*
-			div.innerHTML = text;
-			div.style = "front-weight:bold; padding: 3px;color:red; position:absolute; top: 10px; right: 30px; background: #3b5998";
-			*/
+			if(text=="verified") div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;";
+			else div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
 		});
 }
 
@@ -68,30 +60,31 @@ setInterval(function() {
 
 			var statement = "";
 
-			var shared = test[i].querySelector('._52c6');
-			if(shared != null && shared.href!=undefined)
-				httpGet(shared.href, "", data);
-
-			var text = test[i].querySelector('._5pbx.userContent');
-			if(text != null && text.textContent!=undefined)
-				httpGet(text.textContent, "", data);
+			var processed = false;
 
 			var picComment = test[i].querySelector('.uiScaledImageContainer._4-ep');
-			if(picComment != null && picComment.src!=undefined)
+			if(picComment != null && picComment.src!=undefined) {
 				httpGet(picComment.src, "image", data);
+				processed = false;
+			}
 
 			var picPost = test[i].querySelector('._46-h._517g');
-			if(picPost != null && picPost.src!=undefined)
+			if(!processed && picPost != null && picPost.src!=undefined) {
 				httpGet(picPost.src, "image", data);
+				proccessed = false;
+			}
 
-			// Add indication for validity
+			var shared = test[i].querySelector('._52c6');
+			if(!processed && shared != null && shared.href!=undefined) {
+				httpGet(shared.href, "url", data);
+				processed = false;
+			}
 
-			/*
-			var div = document.createElement('div');
-			data.appendChild(div);
-			div.innerHTML = statement;
-			div.style = "front-weight:bold; padding: 3px;color:red; position:absolute; top: 10px; right: 30px; background: #3b5998"
-			*/
+			var text = test[i].querySelector('._5pbx.userContent');
+			if(!processed && text != null && text.textContent!=undefined) {
+				httpGet(text.textContent, "text", data);
+				processed = false;
+			}
 
 		} else {
 			//console.log("have feed");
