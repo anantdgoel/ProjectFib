@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
+  "name": "FiB",
   "description": "This extension shows a Google Image search result for the current page",
   "version": "1.0",
 
