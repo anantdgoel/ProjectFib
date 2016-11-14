@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "FiB",
-  "description": "This extension shows a Google Image search result for the current page",
+  "description": "This extension analyzes your Facebook feed for a url, picture, and text's validitiy.",
   "version": "1.0",
 
   "browser_action": {

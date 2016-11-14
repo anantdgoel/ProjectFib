@@ -21,7 +21,10 @@ function httpGet(input, type, data) {
 	var server = "https://trustfb.herokuapp.com/";
 	var contents = "?content=";
 	
-	var theUrl = server+contents+input;
+	var page = input;
+	if(type=="url") input = decode(input);
+
+	var theUrl = server+contents+page;
 	theUrl = theUrl.replace("&", "^");
 
 	fetch(theUrl)
@@ -29,16 +32,32 @@ function httpGet(input, type, data) {
 		{ return res.text(); })
 		.then(function(text)
 		{
-			
-				console.log(input + "__::__" + text);
 				var div = document.createElement('div'),
 					button = Ladda.create(div);
 				data.appendChild(div);
-				div.innerHTML = text;
+
+				if(text=="verified") div.innerHTML = "verified";
+				else div.innerHTML = "not verified";
+
 				if(text=="verified") div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #D5F5E3;";
 				else div.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #E74C3C;";
 		});
 }
+
+/*
+ * Parse through Facebook's encoded url for the actual url
+ *
+ */
+function decode(code) {
+
+	var res = "" + code;
+	return res
+		.replace("http://l.facebook.com/l.php?u=", "")
+		.substr(0, "&")
+		.replace("%3A", ":")
+		.replace("%F", "/");
+
+}  
 
 /**
  * Receive each Facebook post and analyze texts, urls, pics for validity.
@@ -64,26 +83,45 @@ setInterval(function() {
 
 			var processed = false;
 
-			var shared = test[i].querySelector('._52c6');
+			var linked = test[i].querySelector('._6ks');
+			if(!processed && linked != null && linked.querySelector('a')!=undefined) {
+				//console.log(linked.querySelector('a'));
+				httpGet(linked.querySelector('a').href, "url", data);
+				processed = false;
+			}
+
+			/*
+			var shared = test[i].querySelector('a._52c6');
 			if(!processed && shared != null && shared.href!=undefined) {
+				console.log(test[i].querySelector('a._52c6'));
 				httpGet(shared.href, "url", data);
 				processed = false;
+			}
+			*/
+
+			var link = test[i].querySelector('._5pbx.userContent');
+			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href!=undefined) {
+				//console.log(link);
+				httpGet(link.href, "url", data);
 			}
 
 			var picComment = test[i].querySelector('.uiScaledImageContainer._4-ep');
 			if(picComment != null && picComment.src!=undefined) {
+				//console.log(picComment);
 				httpGet(picComment.src, "image", data);
 				processed = false;
 			}
 
 			var picPost = test[i].querySelector('._46-h._517g');
 			if(!processed && picPost != null && picPost.src!=undefined) {
+				//console.log(picPost);
 				httpGet(picPost.src, "image", data);
 				proccessed = false;
 			}
 
 			var text = test[i].querySelector('._5pbx.userContent');
 			if(!processed && text != null && text.textContent!=undefined) {
+				//console.log(text);
 				httpGet(text.textContent, "text", data);
 				processed = false;
 			}
