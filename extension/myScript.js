@@ -101,15 +101,7 @@ setInterval(function() {
 				processed = false;
 			}
 
-			/*
-			var shared = test[i].querySelector('a._52c6');
-			if(!processed && shared != null && shared.href!=undefined) {
-				console.log(test[i].querySelector('a._52c6'));
-				httpGet(shared.href, "url", data);
-				processed = false;
-			}
-			*/
-
+	
 			var link = test[i].querySelector('._5pbx.userContent');
 			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href!=undefined) {
 				//console.log(link);
