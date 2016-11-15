@@ -21,8 +21,11 @@ function httpGet(input, type, data) {
 	var server = "https://trustfb.herokuapp.com/";
 	var contents = "?content=";
 	
-	var page = input;
-	if(type=="url") input = decode(input);
+	var page;
+	if(type=="url") page = decode(input);
+	else page = input;
+
+	//console.log(page);
 
 	var theUrl = server+contents+page;
 	theUrl = theUrl.replace("&", "^");
@@ -51,12 +54,20 @@ function httpGet(input, type, data) {
 function decode(code) {
 
 	var res = "" + code;
-	return res
+	res = res
 		.replace("http://l.facebook.com/l.php?u=", "")
-		.substr(0, "&")
-		.replace("%3A", ":")
-		.replace("%F", "/");
+		.replace(/%3A/gi, ":")
+		.replace(/%F/gi, "/")
+		.replace(/%2F/gi, "/");
 
+	var end = res.substr(res.indexOf("^h"), res.length);
+	res = res.replace(end, "");
+	var end2 = res.substr(res.indexOf("&"), res.length);
+	res = res.replace(end2, "");
+
+	console.log(res);
+
+	return res;
 }  
 
 /**
