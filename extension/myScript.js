@@ -18,14 +18,17 @@ var feeds = new Set();
  */
 function httpGet(input, type, data) {
 
-	var server = "https://trustfb.herokuapp.com/";
+	var server = "https://fbserve.herokuapp.com/";
 	var contents = "?content=";
 	
 	var page;
 	if(type=="url") page = decode(input);
 	else page = input;
 
-	//console.log(page);
+	//page.replace("http:", "http://");
+
+    //debugger;
+	console.log(page);
 
 	var theUrl = server+contents+page;
 	theUrl = theUrl.replace("&", "^");
@@ -65,7 +68,7 @@ function decode(code) {
 	var end2 = res.substr(res.indexOf("&"), res.length);
 	res = res.replace(end2, "");
 
-	console.log(res);
+	//console.log(res);
 
 	return res;
 }  
@@ -94,6 +97,7 @@ setInterval(function() {
 
 			var processed = false;
 
+			
 			var linked = test[i].querySelector('._6ks');
 			if(!processed && linked != null && linked.querySelector('a')!=undefined) {
 				//console.log(linked.querySelector('a'));
@@ -107,28 +111,31 @@ setInterval(function() {
 				//console.log(link);
 				httpGet(link.href, "url", data);
 			}
+            
 
 			var picComment = test[i].querySelector('.uiScaledImageContainer._4-ep');
-			if(picComment != null && picComment.src!=undefined) {
+
+			if(picComment != null && picComment.querySelector('img') != undefined && picComment.querySelector('img').src!=undefined) {
+
 				//console.log(picComment);
-				httpGet(picComment.src, "image", data);
+				httpGet(picComment.querySelector('img').src, "image", data);
 				processed = false;
 			}
 
 			var picPost = test[i].querySelector('._46-h._517g');
-			if(!processed && picPost != null && picPost.src!=undefined) {
+			if(!processed && picPost != null  &&  picPost.querySelector('img') != undefined && picPost.querySelector('img').src!=undefined) {
 				//console.log(picPost);
-				httpGet(picPost.src, "image", data);
+				httpGet(picPost.querySelector('img').src, "image", data);
 				proccessed = false;
 			}
-
+			
 			var text = test[i].querySelector('._5pbx.userContent');
 			if(!processed && text != null && text.textContent!=undefined) {
 				//console.log(text);
 				httpGet(text.textContent, "text", data);
 				processed = false;
 			}
-
+	
 		} else {
 			//console.log("have feed");
 		}
