@@ -1,7 +1,7 @@
 
 /**
  * @file myScript.js
- * Script to analyze Facebook feed;
+ * Script to analyze Facebook feed and make connection with the server ;
  *
  * @author Mark Craft, Qinglin Chen
  * @date Fall 2016
@@ -30,7 +30,7 @@ function httpGet(input, type, data) {
     //debugger;
 	console.log(page);
 
-	var theUrl = server+contents+page;
+	var theUrl = server + contents + page;
 	theUrl = theUrl.replace("&", "^");
 
 	fetch(theUrl)
