@@ -126,7 +126,7 @@ setInterval(function() {
 			if(!processed && picPost != null  &&  picPost.querySelector('img') != undefined && picPost.querySelector('img').src!=undefined) {
 				//console.log(picPost);
 				httpGet(picPost.querySelector('img').src, "image", data);
-				proccessed = false;
+				processed = false;
 			}
 			
 			var text = test[i].querySelector('._5pbx.userContent');
