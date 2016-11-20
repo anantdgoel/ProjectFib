@@ -1,16 +1,36 @@
-import http.client, urllib.request, urllib.parse, urllib.error, base64
+import http.client
 import json
-from pprint import pprint
 import urllib
+import urllib.error
+import urllib.parse
+import urllib.request
+
+#TODO Move all these secret keys to a single file. Maybe use a ConfigParser for this?
+MICROSOFT_CV_SUBSCRIPTION_KEY = '92e7b0d9a88a4a6495c5b40481cbe81e'
+
+TWITTER_API_KEY = 'WwA5L9U5PCqbnlfblKwKF0LEo'
+TWITTER_API_SECRET = 'ezUnYWFGyoOzeW68Au7MWLbYvX8ashIYWMEPtOnMqmxQgzXlRu'
+OAUTH_TOKEN = '136941431-Fwtibpyy072k8bqnoJyvLyrid69ZnUIYqbgPGiFr'
+OAUTH_TOKEN_SECRET = 'mtkQ6H6XFElMmp6YV3fLlwx6tPBsZLxt39VWvAJ5H3EJY'
+
+WOT_API_KEY = "e38619a0411ceaa1021f883730ffeeae3a386fa0"
+MIN_TRUST_SCORE = 70
+
+AYLIEN_APP_ID = "357c1a5a"
+AYLIEN_APP_KEY = "458f8b52cec9fdbfd260a52d728c9d80"
+
+IBM_WATSON_API_KEY = '899037d290dbf55145ab97ebccaae88d68b84210'
+
+MICROSOFT_SEARCH_SUBSCRIPTION_KEY = '71b952e8431b4059b3eef47c50eead89'
 
 def no_adult_content(body):
     """
     Use Microsoft's Project Oxford Computer Vision API to detect Adult/NSFW content in images.
     Returns True if content is Safe For Work (SFW), and False otherwise.
     """
-    isAdult = False
-    isRacy = False
-    headers = {'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '92e7b0d9a88a4a6495c5b40481cbe81e',}
+    is_adult = False
+    is_racy = False
+    headers = {'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': MICROSOFT_CV_SUBSCRIPTION_KEY,}
     params = urllib.parse.urlencode({'visualFeatures': 'Adult', 'language': 'en',})
     #body = "{\"url\":\"http://www.gettyimages.ca/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg\"}"
     microsoft_project_oxford_endpoint = 'api.projectoxford.ai'
@@ -20,49 +40,42 @@ def no_adult_content(body):
         response = conn.getresponse()
         data = response.read()
         data = json.loads(data.decode("utf-8"))
-        isAdult = data['adult']['isAdultContent']
-        isRacy =  data['adult']['isRacyContent']
+        is_adult = data['adult']['isAdultContent']
+        is_racy =  data['adult']['isRacyContent']
         conn.close()
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
-    if not isAdult and not isRacy:
-        return(True)
-    else:
-        return(False)
+    return not is_adult and not is_racy
 
 #no_adult_content("{\"url\":\"http://www.gettyimages.ca/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg\"}")
-#link = 'dkakasdkjdjakdjadjfalskdjfalk'
 
 # TODO this function's variable names are pretty confusing, and there's not enough informative
 #      commenting for a 80 line function. The function is likely still too long.
 def twitter_present(link):
-    import http.client, urllib.request, urllib.parse, urllib.error, base64
     import re
     from twython import Twython # pip install twython
-    import time # standard lib
     u = 0
-    return1 = 0
-    twitterorno = 0
+    twitterorno = 0 # TODO Use booleans here
     thetwittertext = ""
     twitterusers = []
-    twitter = Twython('WwA5L9U5PCqbnlfblKwKF0LEo',
-                      'ezUnYWFGyoOzeW68Au7MWLbYvX8ashIYWMEPtOnMqmxQgzXlRu',
-                      '136941431-Fwtibpyy072k8bqnoJyvLyrid69ZnUIYqbgPGiFr',
-                      'mtkQ6H6XFElMmp6YV3fLlwx6tPBsZLxt39VWvAJ5H3EJY') # TODO label these function arguments
 
-    headers = {'Content-Type': 'application/json','Ocp-Apim-Subscription-Key': '92e7b0d9a88a4a6495c5b40481cbe81e',}
+    twitter = Twython(TWITTER_API_KEY,
+                      TWITTER_API_SECRET,
+                      OAUTH_TOKEN,
+                      OAUTH_TOKEN_SECRET)
+
+    headers = {'Content-Type': 'application/json','Ocp-Apim-Subscription-Key': MICROSOFT_CV_SUBSCRIPTION_KEY,}
     params = urllib.parse.urlencode({'language': 'unk','detectOrientation ': 'true',})
     body = "{\"url\":\"" + link + "\"}"
     try:
         conn = http.client.HTTPSConnection('api.projectoxford.ai')
         conn.request("POST", "/vision/v1.0/ocr?%s" % params, body, headers)
         response = conn.getresponse()
-        data = response.read()
-        data = json.loads(data.decode("utf-8"))
+        json_data = response.read()
+        data = json.loads(json_data.decode("utf-8"))
 
         if len(data) == 3:
             if data['orientation'] == 'NotDetected':
-                return1 = -1
                 u = 1
         else:
             for p in data['regions'][0]['lines']:
@@ -77,8 +90,7 @@ def twitter_present(link):
                         pass
         conn.close()
     except Exception as e:
-        #print("[Errno {0}] {1}".format(e.errno, e.strerror))
-        return1 = -1
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
     twpresentornot = 0
     if twitterorno == 0:
         u = 1
@@ -97,15 +109,10 @@ def twitter_present(link):
                 if formattedtweets in thetwittertext:
                     twpresentornot = 1
                     break
-    else:
-        return1 = 1
 
     return1 = 1 if twpresentornot == 1 else  0
 
-    if u == 1 or return1 != 0:
-        return True
-    else:
-        return False
+    return u == 1 or return1 != 0
 
 def verified_links( url ):
     """
@@ -113,10 +120,9 @@ def verified_links( url ):
     """
     Check if web address
     import requests
-    MIN_TRUST_SCORE = 70
     mywot_api_endpoint = "http://api.mywot.com/0.4/public_link_json2"
     #add_website_here = "https://www.ncbi.nlm.nih.gov/pubmed/26389314"
-    querystring = {"hosts":"/"+ url + "/","callback":"process","key":"e38619a0411ceaa1021f883730ffeeae3a386fa0"}
+    querystring = {"hosts":"/"+ url + "/","callback":"process","key" : WOT_API_KEY}
     payload = ""
     headers = {
         'content-type': "application/x-www-form-urlencoded",
@@ -140,13 +146,13 @@ def summarization(url):
     Returns the summarized text as a string.
     """
     from aylienapiclient import textapi
-    summarizedtext = ""
-    client = textapi.Client("357c1a5a", "458f8b52cec9fdbfd260a52d728c9d80")
+    client = textapi.Client(AYLIEN_APP_ID, AYLIEN_APP_KEY)
 
     summary = client.Summarize({'url': url, 'sentences_number': 3})
-    for sentence in summary['sentences']:
-        summarizedtext = summarizedtext + " " + sentence;
-    return summarizedtext
+    if len(summary['sentences'])==0:
+        return ""
+    else:
+        return " ".join(sentence for sentence in summary['sentences'] )
 
 def url_title(link):
     """
@@ -156,28 +162,24 @@ def url_title(link):
         returns ->
         title: "IBM Closes Weather Co. Purchase, Names David Kenny New Head Of Watson Platform"
     """
-    import json
     from watson_developer_cloud import AlchemyLanguageV1
-    alchemy_language = AlchemyLanguageV1(api_key='899037d290dbf55145ab97ebccaae88d68b84210')
+    alchemy_language = AlchemyLanguageV1(api_key = IBM_WATSON_API_KEY)
     alchemyres = json.dumps(alchemy_language.title(url=link),indent=2)
     data = json.loads(alchemyres)
-    return(data["title"])
+    return data["title"] # TODO Check whether json response is empty or not
 
 def other_links(url):
     """
     Uses Microsoft's Cognitive API to evaluate the quality of a webpage, and suggest
     better information if possible.
     """
-    from urllib.request import urlopen
-    vorno=0
-
-    if(verified_links(url) == "not verified"):
+    link_verified = verified_links(url)
+    if link_verified == "not verified":
 
         st = url_title(url)
-        import http.client, urllib.request, urllib.parse, urllib.error, base64
+        import http.client, urllib.request, urllib.parse, urllib.error
         headers = {
-            # Request headers
-            'Ocp-Apim-Subscription-Key': '71b952e8431b4059b3eef47c50eead89',}
+            'Ocp-Apim-Subscription-Key': MICROSOFT_SEARCH_SUBSCRIPTION_KEY,}
         params = urllib.parse.urlencode({'q': st, 'count': '10', 'offset': '0', 'mkt': 'en-us','safesearch': 'Moderate',})
         try:
             conn = http.client.HTTPSConnection('api.cognitive.microsoft.com')
@@ -186,23 +188,20 @@ def other_links(url):
             data = response.read()
             #print(data)
             data = json.loads(data.decode("utf-8"))
-            for h in data['webPages']['value']: # TODO variable names here are non-descriptive
-                if h['displayUrl'] == url:
-                    pass
-                else:
-                    urlscores = verified_links(h['displayUrl'])
+
+            for alt_url in data['webPages']['value']:
+                if alt_url['displayUrl'] != url:
+                    urlscores = verified_links(alt_url['displayUrl'])
                     if urlscores == "verified":
-                        v = 1
-                        kk = "Non verified. Better Verified Info is : " + " "+summarization(h['displayUrl'])
-                        return(kk)
-                        break;
-            if v == 0:
-                return("no verified links")
+                        alternative_summary = "Non verified. Better Verified Info is : "+summarization(alt_url['displayUrl'])
+                        return alternative_summary
             conn.close()
+            return "no verified links"
+
         except Exception as e:
             print("[Errno {0}] {1}".format(e.errno, e.strerror))
     else:
-        return verified_links(url)
+        return link_verified
 
 def main(link):
     #link = "http://i.imgur.com/walokrp.png"
@@ -214,7 +213,7 @@ def main(link):
             if count > 0:
                 print("no link")
             else:
-                count = count + 1
+                count += 1
         else:
             if ".jpg" in link or ".png" in link:
                 if no_adult_content("{\"url\":\"" + link+"\"}") and twitter_present(link):
