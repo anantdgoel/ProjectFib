@@ -2,7 +2,7 @@ Thanks for your interest in contributing to the FiB project
 
 Welcome 👍
 
-This project and its contributors follow the Contributor Convenant 1.2: we treat each other with respect and are committed to a harrassment-free experience for everyone. If you have questions or issues, contact: markshocraft[at]gmail.com.
+This project and its contributors follow the Contributor Convenant 1.2: we treat each other with respect and are committed to a harrassment-free experience for everyone. If you have questions or issues, contact: anantdgoel[at]gmail.com.
 
 Use the GitHub Flow :octocat:
 
