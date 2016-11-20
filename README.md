@@ -5,13 +5,29 @@ In the current media landscape, control over distribution has become almost as i
 ##Installation
 ####The easy way
 Go to the [chrome web store](https://chrome.google.com/webstore/detail/fib/ofpheinlpjdffpdakjegbcphdfeekpnn "Chrome Web Store") and add our extension to your browser
-####The harder way 
+####The harder way
 #####(For those who want the latest features)
 1. Download "extension" folder from our repository
 2. Go to chrome and enable developer settings.
 3. Then go to your extensions page and click "add unbundled extension"
 4. Find the extension where you downloaded it and select it
 5. The extension should be added now
+
+######Backend Server Docker Container
+To build the backend python server locally to use with the extension, this repository includes [backend/Dockerfile](backend/Dockerfile).
+
+Build the Docker image
+```
+cd backend/
+docker build -t hackprincetonf16 .
+```
+
+Run the Docker container locally on port 5000
+```
+docker run -it --rm -p 5000:5000 hackprincetonf16
+```
+
+Update `var server` in [extension/myScript.js](extension/myScript.js) to `http://localhost:5000` before installing the extension manually.
 
 ##About us
 This project is still under development (a lot of work is required and is also being put in). All of us are Univeristy students trying to help solve a problem social media faces. As university we may sometimes take a while to fix issues or approve pull request, please bear with us. We are always on the lookout for sponsors for this project as we are non-profit and need money to run our servers and cover our API costs.
