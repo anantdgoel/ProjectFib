@@ -33,6 +33,12 @@ This container also has the ability to use environment variables for app configu
 docker run -it --rm --env-file .env -p 5000:5000 hackprincetonf16
 ```
 
+To quickly stand up the backend using [Docker Compose](https://docs.docker.com/compose/) which bind mounts [app/](app/) for live changes,
+
+```
+docker-compose up
+```
+
 Update `var server` in [extension/myScript.js](extension/myScript.js) to `http://localhost:5000` before installing the extension manually.
 
 ##About us
