@@ -1,3 +1,5 @@
 Dockerfile
 .git
 Procfile
+.env*
+*.swp
