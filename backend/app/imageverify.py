@@ -6,7 +6,7 @@ import urllib.parse
 import urllib.request
 import os
 
-#TODO Move all these secret keys to a single file. Maybe use a ConfigParser for this?
+#Use ENV vars for configuration per 12 Factor App standards - https://12factor.net/config
 MICROSOFT_CV_SUBSCRIPTION_KEY = os.getenv('MICROSOFT_CV_SUBSCRIPTION_KEY', "92e7b0d9a88a4a6495c5b40481cbe81e")
 
 TWITTER_API_KEY = os.getenv('TWITTER_API_KEY', "WwA5L9U5PCqbnlfblKwKF0LEo")
