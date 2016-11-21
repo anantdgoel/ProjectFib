@@ -27,6 +27,12 @@ Run the Docker container locally on port 5000
 docker run -it --rm -p 5000:5000 hackprincetonf16
 ```
 
+This container also has the ability to use environment variables for app configuration. Look at `backend/app/.env.sample` for a list and create a `.env` file with your custom values. Pass them into the container using the `--env-file` option.
+
+```
+docker run -it --rm --env-file .env -p 5000:5000 hackprincetonf16
+```
+
 Update `var server` in [extension/myScript.js](extension/myScript.js) to `http://localhost:5000` before installing the extension manually.
 
 ##About us
