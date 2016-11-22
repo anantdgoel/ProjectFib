@@ -1,9 +1,6 @@
 import http.client
 import json
 import urllib
-import urllib.error
-import urllib.parse
-import urllib.request
 
 #TODO Move all these secret keys to a single file. Maybe use a ConfigParser for this?
 MICROSOFT_CV_SUBSCRIPTION_KEY = '92e7b0d9a88a4a6495c5b40481cbe81e'
@@ -118,7 +115,7 @@ def verified_links( url ):
     """
     Use's Web of Trust's API to detect untrustworthy web addresses.
     """
-    Check if web address
+    #Check if web address
     import requests
     mywot_api_endpoint = "http://api.mywot.com/0.4/public_link_json2"
     #add_website_here = "https://www.ncbi.nlm.nih.gov/pubmed/26389314"
