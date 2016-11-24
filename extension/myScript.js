@@ -2,6 +2,7 @@
  * @file myScript.js
  * Script to analyze Facebook feed and make connection with the server
  *
+ * @author Mark Craft, Qinglin Chen
  * @date Fall 2016
  */
 (function(document) {
