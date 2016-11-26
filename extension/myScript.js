@@ -55,7 +55,7 @@ function httpGet(input, type, data) {
 function createButton(btn, loc) {
 	var btn = document.createElement('div'),
 		button = Ladda.create(btn);
-	//btn.addEventListener("mouseover", hoverTooltip(text), false);
+	//btn.addEventListener("mouseover", hoverTooltip.bind(text), false);
 
 	btn.innerHTML = "server down";
 	btn.style = "font-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #FFFFFF;";
