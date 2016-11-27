@@ -6,9 +6,11 @@
  * @date Fall 2016
  */
 (function(document) {
-
+'use strict';
 var feeds = new Set();
-
+function text(res) {
+	return res.text();
+}
 /**
  * Http request to fbserve.herokuapp.com.
  *
@@ -27,12 +29,10 @@ function httpGet(input, type, data) {
 	//console.log("Type: " + type + " : " + page);
 
 	fetch(theUrl)
-		.then(function(res) { 
-			return res.text();
-		}).then(function(text) {
+		.then(text).then(function(text) {
 			var btn = document.createElement('div'),
 				button = Ladda.create(btn);
-			btn.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px;";
+			btn.style = "font-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px;";
 			if(text=="verified") {
 				btn.innerHTML = "verified";
 				btn.style.color = "#D5F5E3";
@@ -53,12 +53,12 @@ function httpGet(input, type, data) {
  * @param whether the server is down or not
  */
 function createButton(btn, loc) {
-	btn = document.createElement('div'),
+	var btn = document.createElement('div'),
 		button = Ladda.create(btn);
-	//btn.addEventListener("mouseover", hoverTooltip(text), false);
+	//btn.addEventListener("mouseover", hoverTooltip.bind(text), false);
 
 	btn.innerHTML = "server down";
-	btn.style = "front-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #FFFFFF;";
+	btn.style = "font-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px; color: #FFFFFF;";
 
 	loc.appendChild(btn);
 }
@@ -118,33 +118,33 @@ setInterval(function() {
 			var processed = false;
 
 			var linked = test[i].querySelector('._6ks');
-			if(!processed && linked != null && linked.querySelector('a')!=undefined) {
+			if(!processed && linked != null && linked.querySelector('a') != null) {
 				processed = true;
 				httpGet(linked.querySelector('a').href, "url", data);
 			}
 
 	
 			var link = test[i].querySelector('._5pbx.userContent');
-			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href!=undefined) {
+			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href != null) {
 				processed = true;
 				httpGet(link.href, "url", data);
 			}
             
 
 			var picComment = test[i].querySelector('.uiScaledImageContainer._4-ep');
-			if(!processed && picComment != null && picComment.querySelector('img') != undefined && picComment.querySelector('img').src!=undefined) {
+			if(!processed && picComment != null && picComment.querySelector('img') != undefined && picComment.querySelector('img').src != null) {
 				processed = true;
 				httpGet(picComment.querySelector('img').src, "image", data);
 			}
 
 			var picPost = test[i].querySelector('._46-h._517g');
-			if(!processed && picPost != null  &&  picPost.querySelector('img') != undefined && picPost.querySelector('img').src!=undefined) {
+			if(!processed && picPost != null && picPost.querySelector('img') != undefined && picPost.querySelector('img').src != null) {
 				processed = true;
 				httpGet(picPost.querySelector('img').src, "image", data);
 			}
 			
 			var picTagged = test[i].querySelector('._4-eo._2t9n');
-			if(!processed && picTagged != null && picTagged.querySelector('._46-h._4-ep') != undefined && picTagged.querySelector('._46-h._4-ep').querySelector('img') != undefined) {
+			if(!processed && picTagged != null && picTagged.querySelector('._46-h._4-ep') != null && picTagged.querySelector('._46-h._4-ep').querySelector('img') != null) {
 				processed = true;
 				httpGet(picTagged.querySelector('._46-h._4-ep').querySelector('img').src, "image", data);
 			}
@@ -154,12 +154,12 @@ setInterval(function() {
 			if(!processed && picAlbum != null && picAlbum.querySelectorAll('._5dec._xcx')!=undefined) {
 				processed = true;
 				var pics = picAlbum.querySelectorAll('a._5dec._xcx');
-				for(int i=0; i<pics.length; i++) 
+				for(var i=0; i<pics.length; i++) {}
 			}
 			*/
 
 			var text = test[i].querySelector('._5pbx.userContent');
-			if(!processed && text != null && text.textContent!=undefined) {
+			if(!processed && text != null && text.textContent != null) {
 				processed = true;
 				httpGet(text.textContent, "text", data);
 			}
