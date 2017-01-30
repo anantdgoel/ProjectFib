@@ -4,12 +4,12 @@ In the current media landscape, control over distribution has become almost as i
 
 ##Installation
 ####The easy way
-Go to the [chrome web store](https://chrome.google.com/webstore/detail/fib/ofpheinlpjdffpdakjegbcphdfeekpnn "Chrome Web Store") and add our extension to your browser
+Go to the [chrome web store](https://chrome.google.com/webstore/detail/fib/ofpheinlpjdffpdakjegbcphdfeekpnn "Chrome Web Store") and add our extension to your browser - (Currently does not work)
 ####The harder way
 #####(For those who want the latest features)
 1. Download "extension" folder from our repository
-2. Go to chrome and enable developer settings.
-3. Then go to your extensions page and click "add unbundled extension"
+2. Then go to your extensions page, check the box 'Developer Mode'
+3. Click "Load unpacked extension..."
 4. Find the extension where you downloaded it and select it
 5. The extension should be added now
 
