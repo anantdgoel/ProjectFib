@@ -4,7 +4,7 @@ In the current media landscape, control over distribution has become almost as i
 
 ## Installation
 #### The easy way
-Go to the [chrome web store](https://chrome.google.com/webstore/detail/project-fib/njfkbbdphllgkbdomopoiibhdkkohnbf "Chrome Web Store") and add our extension to your browser - (Currently does not work)
+Go to the [chrome web store](https://chrome.google.com/webstore/detail/project-fib/njfkbbdphllgkbdomopoiibhdkkohnbf "Chrome Web Store") and add our extension to your browser
 #### The harder way
 ##### (For those who want the latest features)
 1. Download "extension" folder from our repository
