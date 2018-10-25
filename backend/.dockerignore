@@ -1,3 +1,6 @@
 Dockerfile
 .git
 Procfile
+.env*
+*.swp
+__pycache__
