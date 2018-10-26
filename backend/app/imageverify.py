@@ -2,28 +2,23 @@ import http.client
 import json
 import urllib
 
-import urllib.error
-import urllib.parse
-import urllib.request
-import os
+#TODO Move all these secret keys to a single file. Maybe use a ConfigParser for this?
+MICROSOFT_CV_SUBSCRIPTION_KEY = '92e7b0d9a88a4a6495c5b40481cbe81e'
 
-#Use ENV vars for configuration per 12 Factor App standards - https://12factor.net/config
-MICROSOFT_CV_SUBSCRIPTION_KEY = os.getenv('MICROSOFT_CV_SUBSCRIPTION_KEY', "92e7b0d9a88a4a6495c5b40481cbe81e")
+TWITTER_API_KEY = 'WwA5L9U5PCqbnlfblKwKF0LEo'
+TWITTER_API_SECRET = 'ezUnYWFGyoOzeW68Au7MWLbYvX8ashIYWMEPtOnMqmxQgzXlRu'
+OAUTH_TOKEN = '136941431-Fwtibpyy072k8bqnoJyvLyrid69ZnUIYqbgPGiFr'
+OAUTH_TOKEN_SECRET = 'mtkQ6H6XFElMmp6YV3fLlwx6tPBsZLxt39VWvAJ5H3EJY'
 
-TWITTER_API_KEY = os.getenv('TWITTER_API_KEY', "WwA5L9U5PCqbnlfblKwKF0LEo")
-TWITTER_API_SECRET = os.getenv('TWITTER_API_SECRET', "ezUnYWFGyoOzeW68Au7MWLbYvX8ashIYWMEPtOnMqmxQgzXlRu")
-OAUTH_TOKEN = os.getenv('OAUTH_TOKEN', "136941431-Fwtibpyy072k8bqnoJyvLyrid69ZnUIYqbgPGiFr")
-OAUTH_TOKEN_SECRET = os.getenv('OAUTH_TOKEN_SECRET', "mtkQ6H6XFElMmp6YV3fLlwx6tPBsZLxt39VWvAJ5H3EJY")
+WOT_API_KEY = "e38619a0411ceaa1021f883730ffeeae3a386fa0"
+MIN_TRUST_SCORE = 70
 
-WOT_API_KEY = os.getenv('WOT_API_KEY', "e38619a0411ceaa1021f883730ffeeae3a386fa0")
-MIN_TRUST_SCORE = int(os.getenv('MIN_TRUST_SCORE', 70))
+AYLIEN_APP_ID = "357c1a5a"
+AYLIEN_APP_KEY = "458f8b52cec9fdbfd260a52d728c9d80"
 
-AYLIEN_APP_ID = os.getenv('AYLIEN_APP_ID', "357c1a5a")
-AYLIEN_APP_KEY = os.getenv('AYLIEN_APP_KEY', "458f8b52cec9fdbfd260a52d728c9d80")
+IBM_WATSON_API_KEY = '899037d290dbf55145ab97ebccaae88d68b84210'
 
-IBM_WATSON_API_KEY = os.getenv('IBM_WATSON_API_KEY', "899037d290dbf55145ab97ebccaae88d68b84210")
-
-MICROSOFT_SEARCH_SUBSCRIPTION_KEY = os.getenv('MICROSOFT_SEARCH_SUBSCRIPTION_KEY', "71b952e8431b4059b3eef47c50eead89")
+MICROSOFT_SEARCH_SUBSCRIPTION_KEY = '71b952e8431b4059b3eef47c50eead89'
 
 def no_adult_content(body):
     """

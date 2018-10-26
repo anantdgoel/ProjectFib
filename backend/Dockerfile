@@ -17,11 +17,10 @@ RUN apk --no-cache add \
         --virtual build-dependencies \
           build-base && \
     pip install -U -r requirements.txt && \
-    rm -fr requirements.txt && \
     apk del build-dependencies
 
 # Copy the app after installing dependencies
-COPY app/* ${APP_DIR}/
+COPY *.py ${APP_DIR}/
 
 #Run app
 ENTRYPOINT ["python"]
